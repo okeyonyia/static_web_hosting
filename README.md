@@ -12,7 +12,7 @@ This document describes the steps towards completing 1st udacity project in the 
 
 ## Final outcome:
 
-To view the final result website, please click or copy link to your web browser okeyonyia.com
+To view the final result website, please click or copy link to your web browser www.okeyonyia.com
 
 -   Website is static html, css javascript files. I had to take this opportunity to setup my personal website
 -   It accepts http/https protocols. If request protocol is http, Cloud Front distribution will upgrade the request to https. If the request is https, even better :-)
