@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>okey_onyia_project01</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h5 id="black-lives-matter">BLACK LIVES MATTER</h5>
+<h1 id="static-website-hosting">Static Website Hosting</h1>
+<h4 id="by-okey-onyia----onyia.okeyjgmail.com">By Okey Onyia -  <em><a href="mailto:onyia.okeyj@gmail.com">onyia.okeyj@gmail.com</a></em></h4>
+<hr>
+<p>This document describes the steps towards completing 1st udacity project in the cloud developer path.</p>
+<h2 id="aws-services-used">AWS Services Used:</h2>
+<ul>
+<li><strong>IAM</strong>, <strong>S3</strong>, <strong>CloudFront</strong>, <strong>Certificate Manager</strong>, <strong>Route53</strong>, <strong>SNS</strong>, <strong>CloudWatch</strong></li>
+</ul>
+<h2 id="final-outcome">Final outcome:</h2>
+<p>To view the final result website, please click or copy link to your web browser <a href="http://okeyonyia.com">okeyonyia.com</a></p>
+<ul>
+<li>Website is static html, css javascript files. I had to take this opportunity to setup my personal website</li>
+<li>It accepts http/https protocols. If request protocol is http, Cloud Front distribution will upgrade the request to https. If the request is https, even better :-)</li>
+</ul>
+<h2 id="breakdown">Breakdown:</h2>
+<ol>
+<li>
+<p><strong>IAM</strong></p>
+<ul>
+<li>Create a new account and applied the <code>promo code</code> given to me to get the <code>50$</code> credit, already used <code>12$</code> :-(</li>
+<li>Configure MFA to secure the root account.</li>
+<li>Create a second user</li>
+<li>Attach admin policy to the user</li>
+<li>Log in with the new user and continue the rest of the set up with the new user</li>
+</ul>
+</li>
+<li>
+<p><strong>S3</strong></p>
+<ul>
+<li>Create  <code>2</code> <code>S3</code> buckets. One for <a href="http://www.okeyonyia.com">www.okeyonyia.com</a> and the other for <a href="http://okeyonyia.com">okeyonyia.com</a></li>
+<li>Upload the same files into the two <em>buckets</em>.<br>
+<img src="https://udacity-project01.s3.amazonaws.com/image+%287%29.png" alt="enter image description here"></li>
+<li>Make the contents <em>public</em> and easily accessible from web browser</li>
+<li>Configure <code>Static Web Hosting</code> to allow the bucket to be used for static web hosting.<br>
+<img src="https://udacity-project01.s3.amazonaws.com/image+%284%29.png" alt="enter image description here"></li>
+<li>Added policy to only allow <code>S3:GetObject</code> actions on the bucket</li>
+<li><img src="https://udacity-project01.s3.amazonaws.com/image+%283%29.png" alt="enter image description here"></li>
+<li>Direct <code>s3</code>bucket links to confirm its the same website -
+<ul>
+<li><a href="http://okeyonyia.com.s3-website-us-east-1.amazonaws.com">http://okeyonyia.com.s3-website-us-east-1.amazonaws.com</a>, <a href="http://www.okeyonyia.com.s3-website-us-east-1.amazonaws.com">http://www.okeyonyia.com.s3-website-us-east-1.amazonaws.com</a><br>
+<img src="https://udacity-project01.s3.amazonaws.com/image+%282%29.png" alt="enter image description here"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Cloud Front</strong></p>
+<ul>
+<li>Setup  <code>2</code> distributions. One for <a href="http://www.okeyonyia.com">www.okeyonyia.com</a> the other for <a href="http://okeyonyia.com">okeyonyia.com</a></li>
+<li>Reason I decided to set up 2 distributions is to be able to use them differently in configuring <code>Route53</code> <code>record zone</code> specifically in <code>creating record sets</code> for type <code>A</code> record. But we will get to that in <code>Route53</code> section</li>
+<li>In the <code>distribution behavior</code> I accept http and https. But had to configure it in a way that if ingress is on <code>80</code>, upgrade to <code>443</code>. I did not like the <strong>Not Secure</strong> sign on the browser :-)</li>
+<li>The upgrade from <code>http</code> to <code>https</code> protocol required an <code>SSL</code> certificate<br>
+<img src="https://udacity-project01.s3.amazonaws.com/image+%285%29.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li>
+<p><strong>Certificate Manager</strong></p>
+<ul>
+<li>Request <code>SSL</code> certificate</li>
+<li>Verify my domain by adding type <code>CNAME</code> <code>record set</code> with value provided in the process to prove ownership of the website</li>
+<li>Another option to verify the domain was to setup <code>SES</code> to receive email verification but I figured the adding those <code>CNAME</code> sets were faster and I didn’t want to go too far beyond the scope of the project.<br>
+<img src="https://udacity-project01.s3.amazonaws.com/image+%286%29.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li>
+<p><strong>Route53</strong></p>
+<ul>
+<li>Register a new domain name - <strong><a href="http://okeyonyia.com">okeyonyia.com</a></strong>. Why not? I had a <strong><code>50$</code></strong> credit.</li>
+<li>Configure Hosted zone Assigned to the domain</li>
+<li>Create <code>Record Sets</code>and added <em>ALIAS</em> that target the <code>Cloud Front</code> Distributions created.</li>
+<li>I did not attach record sets for security reasons<img src="https://udacity-project01.s3.amazonaws.com/image+%281%29.png" alt="enter image description here"></li>
+</ul>
+</li>
+<li>
+<p><strong>CloudWatch</strong></p>
+<ul>
+<li>I did not forget to set up alarm on <code>CloudWatch</code>. I want my <strong><code>50$</code></strong> credit to last.</li>
+</ul>
+</li>
+<li>
+<p><strong>SNS</strong></p>
+<ul>
+<li>Create a <code>BillingAlarm</code> <code>topic</code></li>
+<li>Add an <em>email</em> <code>endpoint</code> providing my email address.</li>
+</ul>
+</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>I find it easier to setup a static web hosting using these simple <code>AWS</code> services. Website was also much easier to update by ensuring to deactivate versioning and override the files.</p>
+<p>Securing the buckets with <code>policies</code> and limiting actions by any <code>Principle</code> to just <code>s3:GetObject</code> brought me peace at night.</p>
+<p><code>AWS Certificates</code> was more than seamless. I will continue to use the certs.</p>
+<p>On the cost side, its been <code>24</code> hours since I had the website on and <code>cloud watch</code> isn’t reporting any spikes in bills yet. Oh, I shared my website with family, friends and now you :-)</p>
+<h5 id="black-lives-matter-1">BLACK LIVES MATTER</h5>
+</div>
+</body>
+
+</html>
